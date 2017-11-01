@@ -24,6 +24,7 @@ RUN docker-php-ext-install \
     mbstring \
     mcrypt \
     mysqli \
+    pcntl \
     pdo \
     pdo_mysql \
     zip
