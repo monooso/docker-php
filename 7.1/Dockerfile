@@ -49,4 +49,4 @@ RUN apt-get clean
 # Copy the .bashrc.
 COPY ./bashrc /root/.bashrc
 
-VOLUME ["/var/code", "/var/log"]
+VOLUME ["/var/code"]
