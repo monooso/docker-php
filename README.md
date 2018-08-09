@@ -25,3 +25,13 @@ docker run \
     -v ~/code/myapp/logs:/var/log \
     monooso/docker-php:latest
 ```
+
+## Docker for Mac ##
+### xdebug ###
+When running in Docker for Mac, xdebug cannot automatically determine the `remote_host` correctly. The solution is to pass a `XDEBUG_CONFIG` environment variable to the container, as follows:
+
+```bash
+docker run \
+    -e XDEBUG_CONFIG="remote_host=docker.for.mac.localhost" \
+    monooso/docker-php:latest
+```
