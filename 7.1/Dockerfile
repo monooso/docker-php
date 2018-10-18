@@ -16,7 +16,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN apt-get install -y git
 
 # Install the required PHP extensions.
-# @see https://laravel.com/docs/5.4/installation#server-requirements
+# @see https://laravel.com/docs/installation#server-requirements
 RUN docker-php-ext-install \
     bcmath \
     gd \
@@ -38,15 +38,15 @@ RUN pecl install imagick && docker-php-ext-enable imagick
 RUN pecl install xdebug && docker-php-ext-enable xdebug
 
 # Customise the PHP configuration.
-COPY ./log.ini /usr/local/etc/php/conf.d/log.ini
-COPY ./upload.ini /usr/local/etc/php/conf.d/upload.ini
-COPY ./opcache.ini /usr/local/etc/php/conf.d/opcache.ini
-COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+COPY ./config/common/log.ini /usr/local/etc/php/conf.d/log.ini
+COPY ./config/common/upload.ini /usr/local/etc/php/conf.d/upload.ini
+COPY ./config/common/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+COPY ./config/common/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 # Tidy up.
 RUN apt-get clean
 
 # Copy the .bashrc.
-COPY ./bashrc /root/.bashrc
+COPY ./config/common/bashrc /root/.bashrc
 
 VOLUME ["/var/code"]
