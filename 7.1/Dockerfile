@@ -5,7 +5,6 @@ RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
     libcurl4-openssl-dev \
     libmagickwand-dev \
     libmcrypt-dev \
-    libmemcached-dev \
     openssl
 
 # Install Composer. Ideally we'd run all Composer commands in a separate.
@@ -31,9 +30,6 @@ RUN docker-php-ext-install \
 
 # Install ImageMagick.
 RUN pecl install imagick && docker-php-ext-enable imagick
-
-# Install memcached.
-RUN pecl install memcached && docker-php-ext-enable memcached
 
 # Install xdebug.
 RUN pecl install xdebug && docker-php-ext-enable xdebug
