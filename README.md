@@ -35,3 +35,10 @@ docker run \
     -e XDEBUG_CONFIG="remote_host=docker.for.mac.localhost" \
     monooso/docker-php:latest
 ```
+
+## Building and tagging ##
+The Dockerfiles reference files from the `config` directory. This means you need to build the Docker images from the repository root. For example:
+
+```bash
+docker build -t monooso/docker-php:7.1 -f 7.1/Dockerfile .
+```
