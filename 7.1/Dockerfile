@@ -28,15 +28,19 @@ RUN docker-php-ext-install \
     pdo_mysql \
     zip
 
-# Install ImageMagick.
+# Enable OPcache
+RUN docker-php-ext-enable opcache
+
+# Install and enable ImageMagick.
 RUN pecl install imagick && docker-php-ext-enable imagick
 
-# Install xdebug.
+# Install and enable xdebug.
 RUN pecl install xdebug && docker-php-ext-enable xdebug
 
 # Customise the PHP configuration.
 COPY ./log.ini /usr/local/etc/php/conf.d/log.ini
 COPY ./upload.ini /usr/local/etc/php/conf.d/upload.ini
+COPY ./opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 # Tidy up.
