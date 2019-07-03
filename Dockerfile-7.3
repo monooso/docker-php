@@ -1,0 +1,51 @@
+FROM php:7.3-fpm
+
+# Install system packages.
+RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
+    libcurl4-openssl-dev \
+    libmagickwand-dev \
+    libzip-dev \
+    openssl
+
+# Install Composer. Ideally we'd run all Composer commands in a separate.
+# container, but Laravel makes this very difficult, because of the post-*
+# scripts.
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Install Git.
+RUN apt-get install -y git
+
+# Install the required PHP extensions.
+# @see https://laravel.com/docs/installation#server-requirements
+RUN docker-php-ext-install \
+    bcmath \
+    gd \
+    mbstring \
+    mysqli \
+    pcntl \
+    pdo \
+    pdo_mysql \
+    zip
+
+# Enable OPcache
+RUN docker-php-ext-enable opcache
+
+# Install and enable ImageMagick.
+RUN pecl install imagick && docker-php-ext-enable imagick
+
+# Install and enable xdebug.
+RUN pecl install xdebug && docker-php-ext-enable xdebug
+
+# Customise the PHP configuration.
+COPY ./config/common/log.ini /usr/local/etc/php/conf.d/log.ini
+COPY ./config/common/upload.ini /usr/local/etc/php/conf.d/upload.ini
+COPY ./config/common/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+COPY ./config/common/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+
+# Tidy up.
+RUN apt-get clean
+
+# Copy the .bashrc.
+COPY ./config/common/bashrc /root/.bashrc
+
+VOLUME ["/var/code"]
